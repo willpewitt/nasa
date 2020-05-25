@@ -1,0 +1,85 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet"
+		  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css"
+		  crossorigin="anonymous">
+
+</head>
+<body>
+
+
+<div class="container">
+	<h2>Mars Rover Image Search</h2>
+
+	<form action="#" method="post" th:action="@{/}" th:object="${roverForm}" class="form-horizontal">
+
+		<div th:if="${#fields.hasErrors('date')}" class="alert alert-danger" role="alert">
+			<p th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Date Error</p>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="datepicker">Select a date:</label>
+			<div class='input-group date col-sm-10' id='datepicker'>
+				<input placeholder="YYYY-MM-DD" th:field="*{date}" type='text' class="form-control"/>
+				<span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="roverpicker">Select a Rover:</label>
+			<div class='input-group col-sm-10'>
+				<select id="roverpicker" class="form-control custom-select" th:field="*{rover}">
+					<option th:each="rover : ${roverList}"
+							th:value="${rover.toLowerCase()}"
+							th:text="${rover}">
+					</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="camerapicker">Select a Rover Camera:</label>
+			<div class='input-group col-sm-10'>
+				<select class="form-control custom-select" id="camerapicker" th:field="*{camera}">
+					<option th:each="camera : ${T(com.pewitt.nasa.constants.Camera).values()}"
+							th:value="${camera}"
+							th:text="${camera}">
+					</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-11 col-sm-1">
+				<button type="submit" class="btn btn-default">Submit</button>
+			</div>
+		</div>
+	</form>
+
+	<div th:if="${photoNames != null}">
+		<li th:each="photoName: ${photoNames}">
+			<a th:href="@{/photo/(name=${photoName})}">View Photo</a>
+		</li>
+	</div>
+
+
+	<!--	<div th:if="${photoNames != null}">-->
+	<!--		<a th:each="photoName: ${photoNames}" th:target="_blank" th:href="@{/photo/(${photoName})}">View Photo</a>-->
+	<!--	</div>-->
+</div>
+
+
+<script src="/js/jquery.3.5.1.js"></script>
+<script src="/js/moment.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/datetimepicker.js"></script>
+<script src="/js/rover.js"></script>
+
+</body>
+
+
+</html>
